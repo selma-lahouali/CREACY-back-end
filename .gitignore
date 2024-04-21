@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+
+# Environment variables file (if you're using dotenv)
+.env
+
+# Debugging log files
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Production build directory (if you're compiling TypeScript or similar)
+dist/
+
+# IDE or editor specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+
+# OS generated files
+.DS_Store
+Thumbs.db
