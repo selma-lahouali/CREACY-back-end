@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const ProductController = require("../controllers/ProductsControllers");
+const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 
 // Create a new product
-router.post("/", ProductController.createProduct);
+router.post("/", imageUpload, ProductController.createProduct);
 
 // Get all products
 router.get("/", ProductController.getAllProducts);

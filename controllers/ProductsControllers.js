@@ -2,23 +2,30 @@ const Products = require("../models/Products");
 
 // Create a new product
 exports.createProduct = async (req, res) => {
+  const { name, description, price, category, quantity } = req.body;
+  const image = req.image;
+  const product = new Products({
+    name,
+    description,
+    price,
+    category,
+    quantity,
+    image,
+  });
   try {
-    const product = new Products(req.body);
-    await product.save();
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    const savedProduct = await product.save();
+    res.json(savedProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
-//   add the pages to display a certain numbe rof production in one page
-  
+  // add the pages to display a certain numbe rof production in one page
   try {
-    const products = await Products.find()
-      
-    res.json({ products});
+    const products = await Products.find();
+    res.json({ products });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
