@@ -4,26 +4,31 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     description: {
       type: String,
-      required: true,
+      // required: true,
     },
     price: {
       type: Number,
-      required: true,
+      // required: true,
     },
     category: {
       type: String,
-      required: true,
+      // required: true,
     },
     quantity: {
       type: Number,
       default: 0,
     },
+    likes: {
+      type: Number,
+      default: 0,
+    },
     image: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "imageUpload",
     },
   },
   { timestamps: true }
