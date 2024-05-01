@@ -17,6 +17,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       // required: true,
+      enum: ["clothing", "accessory", "shoes", "home decoration"],
     },
     quantity: {
       type: Number,
@@ -27,8 +28,7 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     image: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "imageUpload",
+      type: String,
     },
   },
   { timestamps: true }

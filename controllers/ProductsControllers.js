@@ -1,16 +1,18 @@
 const Products = require("../models/Products");
 
-// Create a new product
 exports.createProduct = async (req, res) => {
   const { name, description, price, category, quantity } = req.body;
-  const imageObjectId = req.image._id; // Assuming the image document has "_id" field
+  const image = req.image;
+
+  console.log("Uploaded image:", req.image);
+
   const product = new Products({
     name,
     description,
     price,
     category,
     quantity,
-    image: imageObjectId, // Store the ObjectId of the image document
+    image,
   });
   try {
     const savedProduct = await product.save();
