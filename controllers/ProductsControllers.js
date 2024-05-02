@@ -1,7 +1,7 @@
 const Products = require("../models/Products");
 
 exports.createProduct = async (req, res) => {
-  const { name, description, price, category, quantity } = req.body;
+  const { name, description, price, category, quantity,likes } = req.body;
   const image = req.image;
 
   console.log("Uploaded image:", req.image);
@@ -13,6 +13,7 @@ exports.createProduct = async (req, res) => {
     category,
     quantity,
     image,
+    likes,
   });
   try {
     const savedProduct = await product.save();
