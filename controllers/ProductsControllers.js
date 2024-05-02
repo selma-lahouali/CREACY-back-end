@@ -1,7 +1,7 @@
 const Products = require("../models/Products");
 
 exports.createProduct = async (req, res) => {
-  const { name, description, price, category, quantity,likes } = req.body;
+  const { name, description, price, category, quantity, likes } = req.body;
   const image = req.image;
 
   console.log("Uploaded image:", req.image);
@@ -25,10 +25,15 @@ exports.createProduct = async (req, res) => {
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
-  // add the pages to display a certain numbe rof production in one page
+  const page = req.query.page || 1;
+  const pageSize = 10;
+  const totalCount = await Products.countDocuments();
+  const totalPages = Math.ceil(totalCount / pageSize);
   try {
-    const products = await Products.find();
-    res.json({ products });
+    const products = await Products.find()
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+    res.json({ products, totalPages });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
