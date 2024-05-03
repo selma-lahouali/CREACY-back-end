@@ -4,19 +4,19 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      // required: true,
+      required: true,
     },
     description: {
       type: String,
-      // required: true,
+      required: true,
     },
     price: {
       type: Number,
-      // required: true,
+      required: true,
     },
     category: {
       type: String,
-      // required: true,
+      required: true,
       enum: ["clothing", "accessory", "shoes", "home decoration"],
     },
     quantity: {

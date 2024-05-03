@@ -3,9 +3,6 @@ const Products = require("../models/Products");
 exports.createProduct = async (req, res) => {
   const { name, description, price, category, quantity, likes } = req.body;
   const image = req.image;
-
-  console.log("Uploaded image:", req.image);
-
   const product = new Products({
     name,
     description,
@@ -54,16 +51,31 @@ exports.getProductById = async (req, res) => {
 
 // Update a product by ID
 exports.updateProductById = async (req, res) => {
+  const { name, description, price, category, quantity, likes } = req.body;
+  const image = req.image; // Assuming the image is included in the request
+
   try {
-    const product = await Products.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!product) {
+    const updatedProduct = await Products.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        description,
+        price,
+        category,
+        quantity,
+        image,
+        likes,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.json(product);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
