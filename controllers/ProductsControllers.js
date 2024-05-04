@@ -52,7 +52,7 @@ exports.getProductById = async (req, res) => {
 // Update a product by ID
 exports.updateProductById = async (req, res) => {
   const { name, description, price, category, quantity, likes } = req.body;
-  const image = req.image; // Assuming the image is included in the request
+  const image = req.image;
 
   try {
     const updatedProduct = await Products.findByIdAndUpdate(
@@ -66,7 +66,7 @@ exports.updateProductById = async (req, res) => {
         image,
         likes,
       },
-      { new: true } // Return the updated document
+      { new: true } 
     );
 
     if (!updatedProduct) {
