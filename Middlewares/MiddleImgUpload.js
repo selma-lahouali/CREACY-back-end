@@ -9,6 +9,7 @@ exports.imageUpload = (req, res, next) => {
     } else if (err) {
       return res.status(500).send("Error: " + err.message);
     }
+
     if (req.file) {
       cloudinary.uploader.upload(req.file.path, (error, result) => {
         if (error) {
@@ -19,7 +20,7 @@ exports.imageUpload = (req, res, next) => {
         return next();
       });
     } else {
-      return res.status(400).send("No file provided.");
+      return next();
     }
   });
 };
@@ -31,9 +32,11 @@ exports.multipleImageUpload = (req, res, next) => {
     } else if (err) {
       return res.status(500).send("Error: " + err.message);
     }
+
     if (!req.files || req.files.length === 0) {
       return next();
     }
+
     const uploadedImages = [];
     req.files.forEach((file, index, array) => {
       cloudinary.uploader.upload(file.path, (error, result) => {
