@@ -1,10 +1,10 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+// register controller / register controller / register controller
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
-  const existingUser = await User.findOne({email});
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).send("Email already in use");
   }
@@ -17,6 +17,7 @@ exports.register = async (req, res) => {
     console.log(err);
   }
 };
+// login controller / login controller / login controller / login controller
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -25,8 +26,13 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(404).send("No user found with this email");
     }
-    await bcrypt.compare(password, user.password);
-    const token = jwt.sign({ userid: user._id }, "secret", { expiresIn: "1h" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).send("Invalid password");
+    }
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+      expiresIn: "1h",
+    });
     res.status(200).json({ user, token });
   } catch (err) {
     return res.status(500).send(err.message);

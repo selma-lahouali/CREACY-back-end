@@ -1,23 +1,33 @@
 const Shops = require("../models/Shop");
 
-// Creat a Shop
+// Create a Shop
 exports.createShop = async (req, res) => {
   const { name, description, category } = req.body;
   const image = req.image;
-  const Shop = new Shops({
-    name,
-    description,
-    category,
-    image,
-  });
+  const userID = req.params.userID;
+
   try {
-    const savedShop = await Shop.save();
+    // Check if the user already owns a shop
+    const existingShop = await Shops.findOne({ owner: userID });
+    if (existingShop) {
+      return res.status(400).json({ error: "User already has a shop." });
+    }
+
+    // Proceed with creating a new shop
+    const newShop = new Shops({
+      name,
+      description,
+      category,
+      image,
+      owner: userID,
+    });
+
+    const savedShop = await newShop.save();
     res.json(savedShop);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
-
 // Get all Shops
 exports.getAllShops = async (req, res) => {
   try {

@@ -6,10 +6,15 @@ exports.verifyToken = (req, res, next) => {
     return res.status(401).json({ error: "Access denied. Token is required." });
   }
   const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ error: "Access denied. Token is required." });
+  }
   try {
-    jwt.verify(token, process.env.SECRET);
+    const decoded = jwt.verify(token, process.env.SECRET);
+    req.userId = decoded.userId; // Assuming userId is included in the token payload
     next();
   } catch (err) {
+    console.error("Error verifying token:", err);
     return res.status(401).json({ error: "Invalid token." });
   }
 };

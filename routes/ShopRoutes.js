@@ -1,21 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const ShopController = require("../controllers/ShopController");
-const { imageUpload } = require("../Middlewares/MiddleImgUpload");
+const ShopController = require("../controllers/shopController");
+const { imageUpload } = require("../middlewares/middleImgUpload");
+const { verifyToken } = require("../middlewares/verifyToken");
 
-// Create a new product
-router.post("/", imageUpload, ShopController.createShop);
+// Create a new shop
+router.post("/:userID", verifyToken, imageUpload, ShopController.createShop);
 
-// Get all products
-router.get("/", ShopController.getAllShops);
+// Get all shops with pagination
+router.get("/", verifyToken, ShopController.getAllShops);
 
-// Get a single product by ID
-router.get("/:id", ShopController.getShopById);
+// Get a single shop by ID
+router.get("/:id", verifyToken, ShopController.getShopById);
 
-// Update a product by ID
-router.put("/:id", imageUpload, ShopController.updateShopById);
+// Update a shop by ID
+router.put("/:id", verifyToken, imageUpload, ShopController.updateShopById);
 
-// Delete a product by ID
-router.delete("/:id", ShopController.deleteShopById);
+// Delete a shop by ID
+router.delete("/:id", verifyToken, ShopController.deleteShopById);
 
 module.exports = router;

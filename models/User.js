@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -15,14 +16,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match: /^[^\s@]+@[^\s@]+.[^\s@]+$/,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       lowercase: true,
       trim: true,
+    },
+    image: {
+      type: String,
     },
     role: {
       type: String,
       default: "user",
     },
+    // Add reference to the shop model
+    shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Shop',
+      unique: true // Ensure each user can have only one shop
+    }
   },
   {
     toJSON: {
@@ -32,4 +42,5 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
 module.exports = mongoose.model("User", userSchema);

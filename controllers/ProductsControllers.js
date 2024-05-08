@@ -66,7 +66,7 @@ exports.updateProductById = async (req, res) => {
         image,
         likes,
       },
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedProduct) {

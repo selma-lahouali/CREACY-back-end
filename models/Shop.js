@@ -1,3 +1,4 @@
+// models/Shop.js
 const mongoose = require("mongoose");
 
 const shopSchema = new mongoose.Schema(
@@ -11,7 +12,6 @@ const shopSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    // categories will change
     category: {
       type: String,
       enum: ["clothing", "accessory", "shoes", "home decoration"],
@@ -19,9 +19,10 @@ const shopSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    role: {
-      type: String,
-      default: "seller",
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true }
