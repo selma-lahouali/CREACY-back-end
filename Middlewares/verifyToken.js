@@ -11,7 +11,7 @@ exports.verifyToken = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
-    req.userId = decoded.userId; // Assuming userId is included in the token payload
+    req.userId = decoded.userId; 
     next();
   } catch (err) {
     console.error("Error verifying token:", err);
