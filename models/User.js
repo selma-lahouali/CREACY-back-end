@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     role: {
       type: String,
@@ -30,11 +32,12 @@ const userSchema = new mongoose.Schema(
     // Add reference to the shop model
     shop: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Shop',
-      unique: true // Ensure each user can have only one shop
-    }
+      ref: "Shop",
+      unique: true, // Ensure each user can have only one shop
+    },
   },
   {
+    timestamps: true, // Placed within the same object as other options
     toJSON: {
       transform(doc, ret) {
         delete ret.password;

@@ -8,10 +8,10 @@ const { verifyToken } = require("../middlewares/verifyToken");
 router.post("/:userID", verifyToken, imageUpload, ShopController.createShop);
 
 // Get all shops with pagination
-router.get("/",verifyToken, ShopController.getAllShops);
+router.get("/", verifyToken, ShopController.getAllShops);
 verifyToken,
-// Get a single shop by ID
-router.get("/:id",verifyToken, ShopController.getShopById);
+  // Get a single shop by ID
+  router.get("/owner/:ownerId", verifyToken, ShopController.getShopOwnerById);
 
 // Update a shop by ID
 router.put("/:id", verifyToken, imageUpload, ShopController.updateShopById);

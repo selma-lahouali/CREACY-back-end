@@ -39,14 +39,15 @@ exports.getAllShops = async (req, res) => {
   }
 };
 
-// Get a single Shop by ID
-exports.getShopById = async (req, res) => {
+// Get a single Shop by Owner ID
+exports.getShopOwnerById = async (req, res) => {
   try {
-    const Shop = await Shops.findById(req.params.id);
-    if (!Shop) {
+    const ownerId = req.params.ownerId;
+    const shop = await Shops.findOne({ owner: ownerId });
+    if (!shop) {
       return res.status(404).json({ message: "Shop not found" });
     }
-    res.json(Shop);
+    res.json(shop);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
