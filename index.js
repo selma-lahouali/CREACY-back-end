@@ -6,6 +6,7 @@ const ShopRoutes = require("./routes/ShopRoutes");
 const ProductsRoutes = require("./routes/ProductsRoutes");
 const cors = require("cors");
 const app = express();
+const port = process.env.PORT
 app.use(cors());
 app.use(express.json());
 app.use("/auth", AuthRoutes);
@@ -13,7 +14,7 @@ app.use("/shop", ShopRoutes);
 app.use("/products", ProductsRoutes);
 
 // port
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port|| 3000, () => {
   console.log("server is runnig");
 });
 // database
