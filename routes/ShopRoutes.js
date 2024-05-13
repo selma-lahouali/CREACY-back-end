@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ShopController = require("../controllers/shopController");
+const ShopController = require("../controllers/ShopController");
 const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 const { verifyToken } = require("../Middlewares/VerificationToken");
 

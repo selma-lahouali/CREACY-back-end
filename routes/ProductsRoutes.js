@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ProductController = require("../controllers/ProductsControllers");
+const ProductsControllers = require("../controllers/ProductsControllers");
 const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 const { verifyToken } = require("../Middlewares/VerificationToken");
 
@@ -9,30 +9,30 @@ router.post(
   "/:userID",
   verifyToken,
   imageUpload,
-  ProductController.createProduct
+  ProductsControllers.createProduct
 );
 
 // Get all products from all shops
-router.get("/", verifyToken, ProductController.getAllProducts);
+router.get("/", verifyToken, ProductsControllers.getAllProducts);
 // Get all products from a shop by owner id
 router.get(
   "/owner/:ownerId",
   verifyToken,
-  ProductController.getAllProductsByOwner
+  ProductsControllers.getAllProductsByOwner
 );
 
 // Get a single product by ID
-router.get("/:id", verifyToken, ProductController.getProductById);
+router.get("/:id", verifyToken, ProductsControllers.getProductById);
 
 // Update a product by ID
 router.put(
   "/:id",
   verifyToken,
   imageUpload,
-  ProductController.updateProductById
+  ProductsControllers.updateProductById
 );
 
 // Delete a product by ID
-router.delete("/:id", verifyToken, ProductController.deleteProductById);
+router.delete("/:id", verifyToken, ProductsControllers.deleteProductById);
 
 module.exports = router;
