@@ -1,5 +1,5 @@
 const Products = require("../models/Products");
-
+// creat new product / creat new product / creat new product / creat new product
 exports.createProduct = async (req, res) => {
   const { name, description, price, category, quantity, likes } = req.body;
   const image = req.image;
@@ -22,16 +22,37 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Get all products
+// Get all products of all shops
 exports.getAllProducts = async (req, res) => {
   const page = req.query.page || 1;
   const pageSize = 10;
-  const totalCount = await Products.countDocuments();
-  const totalPages = Math.ceil(totalCount / pageSize);
   try {
+    const totalCount = await Products.countDocuments();
+    const totalPages = Math.ceil(totalCount / pageSize);
+
     const products = await Products.find()
       .skip((page - 1) * pageSize)
       .limit(pageSize);
+
+    res.json({ products, totalPages });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get all products from a shop by owner id
+exports.getAllProductsByOwner = async (req, res) => {
+  const ownerId = req.params.ownerId;
+  const page = req.query.page || 1;
+  const pageSize = 10;
+  try {
+    const totalCount = await Products.countDocuments({ owner: ownerId });
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    const products = await Products.find({ owner: ownerId })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
     res.json({ products, totalPages });
   } catch (error) {
     res.status(500).json({ error: error.message });

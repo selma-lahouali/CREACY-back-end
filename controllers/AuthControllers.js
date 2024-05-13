@@ -50,7 +50,7 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// update user password and image
+// update user image and password
 exports.updateUserById = async (req, res) => {
   const { password } = req.body;
   const image = req.image;
@@ -83,3 +83,4 @@ exports.updateUserById = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+

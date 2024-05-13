@@ -11,8 +11,10 @@ router.post(
   ProductController.createProduct
 );
 
-// Get all products
+// Get all products from all shops
 router.get("/", verifyToken, ProductController.getAllProducts);
+// Get all products from a shop by owner id
+router.get("/owner/:ownerId", verifyToken, ProductController.getAllProductsByOwner);
 
 // Get a single product by ID
 router.get("/:id", verifyToken, ProductController.getProductById);
