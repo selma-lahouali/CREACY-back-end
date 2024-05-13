@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const ShopController = require("../controllers/shopController");
-const { imageUpload } = require("../middlewares/middleImgUpload");
-const { verifyToken } = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/VerifyToken");
+const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 
 // Create a new shop
 router.post("/:userID", verifyToken, imageUpload, ShopController.createShop);

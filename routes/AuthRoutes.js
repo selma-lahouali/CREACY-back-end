@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const AuthController = require("../controllers/AuthControllers");
-const { imageUpload } = require("../middlewares/middleImgUpload");
-const { verifyToken } = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/VerifyToken");
+const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 // Register route / Register route / Register route / Register route / Register route
 router.post("/register", AuthController.register);
 // login route / login route / login route / login route / login route / login route

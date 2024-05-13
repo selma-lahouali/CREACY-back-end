@@ -15,7 +15,7 @@ app.use("/products", ProductsRoutes);
 
 // port
 app.listen(port|| 3000, () => {
-  console.log("server is runnig");
+  console.log("server is runnig",port);
 });
 // database
 mongoose
