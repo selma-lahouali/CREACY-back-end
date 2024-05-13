@@ -1,37 +1,37 @@
 const express = require("express");
 const router = express.Router();
 const ProductController = require("../controllers/ProductsControllers");
-const { verifyToken } = require("../middlewares/VerifyToken");
+const { VerifyToken } = require("../Middlewares/VerifyToken");
 const { imageUpload } = require("../Middlewares/MiddleImgUpload");
 // Create a new product
 router.post(
   "/:userID",
-  verifyToken,
+  VerifyToken,
   imageUpload,
   ProductController.createProduct
 );
 
 // Get all products from all shops
-router.get("/", verifyToken, ProductController.getAllProducts);
+router.get("/", VerifyToken, ProductController.getAllProducts);
 // Get all products from a shop by owner id
 router.get(
   "/owner/:ownerId",
-  verifyToken,
+  VerifyToken,
   ProductController.getAllProductsByOwner
 );
 
 // Get a single product by ID
-router.get("/:id", verifyToken, ProductController.getProductById);
+router.get("/:id", VerifyToken, ProductController.getProductById);
 
 // Update a product by ID
 router.put(
   "/:id",
-  verifyToken,
+  VerifyToken,
   imageUpload,
   ProductController.updateProductById
 );
 
 // Delete a product by ID
-router.delete("/:id", verifyToken, ProductController.deleteProductById);
+router.delete("/:id", VerifyToken, ProductController.deleteProductById);
 
 module.exports = router;
