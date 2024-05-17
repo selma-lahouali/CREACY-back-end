@@ -6,6 +6,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      // default:"https://icon-library.com/images/img-icon/img-icon-0.jpg",
+    },
     description: {
       type: String,
       required: true,
@@ -19,6 +23,14 @@ const productSchema = new mongoose.Schema(
       required: true,
       enum: ["clothing", "accessory", "shoes", "home decoration"],
     },
+    color: {
+      type: String,
+      default: "white",
+    },
+    size: {
+      type: String,
+      default: "universal",
+    },
     quantity: {
       type: Number,
       default: 0,
@@ -26,9 +38,6 @@ const productSchema = new mongoose.Schema(
     likes: {
       type: Number,
       default: 0,
-    },
-    image: {
-      type: String,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

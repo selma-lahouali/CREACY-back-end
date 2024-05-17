@@ -29,15 +29,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    // Add reference to the shop model
+  
     shop: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Shop",
-      unique: true, // Ensure each user can have only one shop
+      unique: true, 
     },
   },
   {
-    timestamps: true, // Placed within the same object as other options
+    timestamps: true, 
     toJSON: {
       transform(doc, ret) {
         delete ret.password;

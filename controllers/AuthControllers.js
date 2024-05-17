@@ -30,8 +30,8 @@ exports.login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).send("Invalid password");
     }
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
-      expiresIn: "5h",
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.SECRET, {
+      expiresIn: "8h",
     });
     res.status(200).json({ user, token });
   } catch (err) {
