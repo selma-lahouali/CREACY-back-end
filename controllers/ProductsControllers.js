@@ -1,7 +1,8 @@
 const Products = require("../models/Products");
 // creat new product / creat new product / creat new product / creat new product
 exports.createProduct = async (req, res) => {
-  const { name, description, price, category, quantity, likes } = req.body;
+  const { name, description, price, category, quantity, likes, color, size } =
+    req.body;
   const image = req.image;
   const userID = req.params.userID;
   const product = new Products({
@@ -12,6 +13,8 @@ exports.createProduct = async (req, res) => {
     quantity,
     image,
     likes,
+    color,
+    size,
     owner: userID,
   });
   try {
@@ -74,7 +77,8 @@ exports.getProductById = async (req, res) => {
 
 // Update a product by ID
 exports.updateProductById = async (req, res) => {
-  const { name, description, price, category, quantity, likes } = req.body;
+  const { name, description, price, category, quantity, likes, color, size } =
+    req.body;
   const image = req.image;
 
   try {
@@ -88,6 +92,8 @@ exports.updateProductById = async (req, res) => {
         quantity,
         image,
         likes,
+        color,
+        size,
       },
       { new: true }
     );
@@ -112,5 +118,42 @@ exports.deleteProductById = async (req, res) => {
     res.json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// update Product Description / update Product Description
+exports.updateProductDescription = async (req, res) => {
+  const { description, linkDescription, extraInfo } = req.body;
+  const newImageDescriptions = req.imageDescriptions || []; // Array of new image URLs
+
+  try {
+    // Retrieve the existing product to get the current imageDescription
+    const product = await Products.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Append new images to the existing imageDescription array
+    const updatedImageDescription = (product.imageDescription || []).concat(newImageDescriptions);
+
+    // Update the product with the new description and imageDescription
+    const updatedDescription = await Products.findByIdAndUpdate(
+      req.params.id,
+      {
+        description,
+        extraInfo,
+        linkDescription,
+        imageDescription: updatedImageDescription, 
+      },
+      { new: true }
+    );
+
+    if (!updatedDescription) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(updatedDescription);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };

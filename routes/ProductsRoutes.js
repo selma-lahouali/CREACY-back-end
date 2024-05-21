@@ -35,4 +35,12 @@ router.put(
 // Delete a product by ID
 router.delete("/:id", verifyToken, ProductsControllers.deleteProductById);
 
+// update Product Description / update Product Description
+router.put(
+  "/description/:id",
+  imageUpload,
+  verifyToken,
+  ProductsControllers.updateProductDescription
+);
+
 module.exports = router;

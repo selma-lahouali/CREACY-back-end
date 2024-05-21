@@ -61,12 +61,11 @@ exports.deleteFromCart = async (req, res) => {
     }
 
     res.status(200).json(cart);
-    console.log(productId);
   } catch (error) {
-    res.status(500).json(error);
+    console.error("Error removing product from cart:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
-
 // GET USER's CART
 exports.findUserCart = async (req, res) => {
   try {

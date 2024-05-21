@@ -8,11 +8,20 @@ const productSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      // default:"https://icon-library.com/images/img-icon/img-icon-0.jpg",
+      required: true,
     },
     description: {
       type: String,
-      required: true,
+      default: "no description added yet",
+    },
+    extraInfo: {
+      type: String,
+    },
+    imageDescription: {
+      type: [String],
+    },
+    linkDescription: {
+      type: String,
     },
     price: {
       type: Number,
