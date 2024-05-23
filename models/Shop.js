@@ -18,6 +18,9 @@ const shopSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      required: true,
+      // default:
+      //   "https://www.kcnpnm.org/global_graphics/default-store-350x350.jpg",
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

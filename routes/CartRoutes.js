@@ -15,7 +15,7 @@ router.delete("/:id", verifyToken, CartControllers.deleteFromCart);
 // GET USER'S CART
 router.get("/:id", verifyToken, CartControllers.findUserCart);
 
-// GET CARTS OF ALL USERS (Restricted to admin users)
+// GET CARTS OF ALL USERS (Restricted to admin only)
 router.get("/", verifyToken, adminCheck, CartControllers.getAllCarts);
 
 module.exports = router;
