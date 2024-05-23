@@ -20,8 +20,11 @@ const productSchema = new mongoose.Schema(
     imageDescription: {
       type: [String],
     },
-    linkDescription: {
-      type: String,
+    tiktok: {
+      type: [String],
+    },
+    instagram: {
+      type: [String],
     },
     price: {
       type: Number,
@@ -33,12 +36,10 @@ const productSchema = new mongoose.Schema(
       enum: ["clothing", "accessory", "shoes", "home decoration"],
     },
     color: {
-      type: String,
-      default: "white",
+      type: [String],
     },
     size: {
-      type: String,
-      default: "universal",
+      type: [String],
     },
     quantity: {
       type: Number,

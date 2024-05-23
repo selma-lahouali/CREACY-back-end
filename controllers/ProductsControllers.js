@@ -1,20 +1,16 @@
 const Products = require("../models/Products");
 // creat new product / creat new product / creat new product / creat new product
 exports.createProduct = async (req, res) => {
-  const { name, description, price, category, quantity, likes, color, size } =
-    req.body;
+  const { name, price, category, quantity, likes } = req.body;
   const image = req.image;
   const userID = req.params.userID;
   const product = new Products({
     name,
-    description,
     price,
     category,
     quantity,
     image,
     likes,
-    color,
-    size,
     owner: userID,
   });
   try {
@@ -77,8 +73,7 @@ exports.getProductById = async (req, res) => {
 
 // Update a product by ID
 exports.updateProductById = async (req, res) => {
-  const { name, description, price, category, quantity, likes, color, size } =
-    req.body;
+  const { name, price, category, quantity, likes } = req.body;
   const image = req.image;
 
   try {
@@ -86,14 +81,11 @@ exports.updateProductById = async (req, res) => {
       req.params.id,
       {
         name,
-        description,
         price,
         category,
         quantity,
         image,
         likes,
-        color,
-        size,
       },
       { new: true }
     );
@@ -123,9 +115,13 @@ exports.deleteProductById = async (req, res) => {
 
 // update Product Description / update Product Description
 exports.updateProductDescription = async (req, res) => {
-  const { description, linkDescription, extraInfo } = req.body;
-  const newImageDescriptions = req.imageDescriptions || []; // Array of new image URLs
+  const { description, extraInfo, color, size, tiktok, instagram } = req.body;
+  const newImageDescriptions = req.imageDescriptions || [];
 
+  const newColor = color || [];
+  const newSize = size || [];
+  const newTiktok = tiktok || [];
+  const newInstagram = instagram || [];
   try {
     // Retrieve the existing product to get the current imageDescription
     const product = await Products.findById(req.params.id);
@@ -133,8 +129,15 @@ exports.updateProductDescription = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Append new images to the existing imageDescription array
-    const updatedImageDescription = (product.imageDescription || []).concat(newImageDescriptions);
+    // Append new ellement to their existing arrays
+    const updatedImageDescription = (product.imageDescription || []).concat(
+      newImageDescriptions
+    );
+
+    const updateNewColor = (product.color || []).concat(newColor);
+    const updateNewSize = (product.size || []).concat(newSize);
+    const updateNewTiktok = (product.tiktok || []).concat(newTiktok);
+    const updateNewInstagram = (product.instagram || []).concat(newInstagram);
 
     // Update the product with the new description and imageDescription
     const updatedDescription = await Products.findByIdAndUpdate(
@@ -142,8 +145,11 @@ exports.updateProductDescription = async (req, res) => {
       {
         description,
         extraInfo,
-        linkDescription,
-        imageDescription: updatedImageDescription, 
+        imageDescription: updatedImageDescription,
+        color: updateNewColor,
+        size: updateNewSize,
+        tiktok: updateNewTiktok,
+        instagram: updateNewInstagram,
       },
       { new: true }
     );

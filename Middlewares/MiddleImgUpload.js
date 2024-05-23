@@ -5,8 +5,8 @@ const cloudinary = require("../config/Cloudinary");
 exports.imageUpload = (req, res, next) => {
   // Adjusting the multer configuration to handle multiple fields
   const uploadHandler = upload.fields([
-    { name: 'image', maxCount: 1 },
-    { name: 'imageDescription', maxCount: 10 },
+    { name: "image", maxCount: 1 },
+    { name: "imageDescription", maxCount: 10 },
   ]);
 
   uploadHandler(req, res, (err) => {
@@ -18,9 +18,9 @@ exports.imageUpload = (req, res, next) => {
 
     // Handle image upload for both fields
     const uploadPromises = [];
-    
-    if (req.files && req.files['image']) {
-      const imageFile = req.files['image'][0];
+
+    if (req.files && req.files["image"]) {
+      const imageFile = req.files["image"][0];
       uploadPromises.push(
         cloudinary.uploader.upload(imageFile.path).then((result) => {
           req.image = result.secure_url;
@@ -28,11 +28,10 @@ exports.imageUpload = (req, res, next) => {
       );
     }
 
-    if (req.files && req.files['imageDescription']) {
-      const imageDescriptionFiles = req.files['imageDescription'];
-      req.imageDescriptions = []; // Initialize as an empty array
-
-      imageDescriptionFiles.forEach(file => {
+    if (req.files && req.files["imageDescription"]) {
+      const imageDescriptionFiles = req.files["imageDescription"];
+      req.imageDescriptions = [];
+      imageDescriptionFiles.forEach((file) => {
         uploadPromises.push(
           cloudinary.uploader.upload(file.path).then((result) => {
             req.imageDescriptions.push(result.secure_url);
