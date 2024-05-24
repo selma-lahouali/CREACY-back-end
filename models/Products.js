@@ -46,8 +46,9 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     likes: {
-      type: Number,
-      default: 0,
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

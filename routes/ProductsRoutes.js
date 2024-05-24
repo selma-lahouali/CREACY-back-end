@@ -42,5 +42,7 @@ router.put(
   verifyToken,
   ProductsControllers.updateProductDescription
 );
+// Like/Unlike a product
+router.put("/like/:userID/:id", verifyToken, ProductsControllers.toggleLikeProduct);
 
 module.exports = router;

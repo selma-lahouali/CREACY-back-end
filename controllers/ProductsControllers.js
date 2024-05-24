@@ -20,23 +20,32 @@ exports.createProduct = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
 // Get all products of all shops
 exports.getAllProducts = async (req, res) => {
   const page = req.query.page || 1;
   const pageSize = 10;
   let query = {};
+
   try {
-    const { categories } = req.query;
+    const { categories, search } = req.query;
+
+    console.log("Page:", page);
+    console.log("Categories:", categories);
+    console.log("Search:", search);
 
     if (categories) {
       const categoryArray = categories.split(",");
       query.category = { $in: categoryArray };
     }
 
+    if (search && search.trim() !== "") {
+      query.$or = [
+        { name: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ];
+    }
     const totalCount = await Products.countDocuments(query);
     const totalPages = Math.ceil(totalCount / pageSize);
-
     const products = await Products.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
@@ -52,18 +61,24 @@ exports.getAllProductsByOwner = async (req, res) => {
   const ownerId = req.params.ownerId;
   const page = req.query.page || 1;
   const pageSize = 10;
-  let query = { owner: ownerId }; // Initialize query with owner id
+  let query = { owner: ownerId };
 
   try {
-    const { categories } = req.query;
+    const { categories, search } = req.query;
+
     if (categories) {
       const categoryArray = categories.split(",");
       query.category = { $in: categoryArray };
     }
 
+    if (search && search.trim() !== "") {
+      query.$or = [
+        { name: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ];
+    }
     const totalCount = await Products.countDocuments(query);
     const totalPages = Math.ceil(totalCount / pageSize);
-
     const products = await Products.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
@@ -177,5 +192,34 @@ exports.updateProductDescription = async (req, res) => {
     res.json(updatedDescription);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+// Like or Unlike a product
+exports.toggleLikeProduct = async (req, res) => {
+  const userId = req.params.userID;
+  const productId = req.params.id;
+
+  try {
+    const product = await Products.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const isLiked = product.likes.includes(userId);
+
+    if (isLiked) {
+      // Unlike the product
+      product.likes.pull(userId);
+    } else {
+      // Like the product
+      product.likes.push(userId);
+    }
+
+    await product.save();
+
+    res.json({ likes: product.likes.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
