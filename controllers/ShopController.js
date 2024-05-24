@@ -87,36 +87,13 @@ exports.updateShopById = async (req, res) => {
   }
 };
 
-// Update a Shop by ID
-// exports.updateShopById = async (req, res) => {
-//   const { name, description, category } = req.body;
-//   const image = req.image;
-
-//   try {
-//     const updatedShop = await Shops.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         name,
-//         description,
-//         category,
-//         image,
-//       },
-//       { new: true }
-//     );
-
-//     if (!updatedShop) {
-//       return res.status(404).json({ message: "Shop not found" });
-//     }
-//     res.json(updatedShop);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
-
 // Delete a Shop by ID
 exports.deleteShopById = async (req, res) => {
   const ownerId = req.params.ownerId;
   const shop = await Shops.findOne({ owner: ownerId });
+  if (!shop) {
+    return res.status(404).json({ message: "Shop not found" });
+  }
   try {
     const Shop = await Shops.findByIdAndDelete(req.params.id);
     if (!Shop) {

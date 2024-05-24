@@ -25,11 +25,19 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   const page = req.query.page || 1;
   const pageSize = 10;
+  let query = {};
   try {
-    const totalCount = await Products.countDocuments();
+    const { categories } = req.query;
+
+    if (categories) {
+      const categoryArray = categories.split(",");
+      query.category = { $in: categoryArray };
+    }
+
+    const totalCount = await Products.countDocuments(query);
     const totalPages = Math.ceil(totalCount / pageSize);
 
-    const products = await Products.find()
+    const products = await Products.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
@@ -44,11 +52,19 @@ exports.getAllProductsByOwner = async (req, res) => {
   const ownerId = req.params.ownerId;
   const page = req.query.page || 1;
   const pageSize = 10;
+  let query = { owner: ownerId }; // Initialize query with owner id
+
   try {
-    const totalCount = await Products.countDocuments({ owner: ownerId });
+    const { categories } = req.query;
+    if (categories) {
+      const categoryArray = categories.split(",");
+      query.category = { $in: categoryArray };
+    }
+
+    const totalCount = await Products.countDocuments(query);
     const totalPages = Math.ceil(totalCount / pageSize);
 
-    const products = await Products.find({ owner: ownerId })
+    const products = await Products.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
