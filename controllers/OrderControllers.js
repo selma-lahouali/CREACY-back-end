@@ -2,25 +2,66 @@ const Order = require("../models/Order");
 
 // CREATE
 exports.createOrder = async (req, res) => {
-  const newOrder = new Order(req.body);
+  const userID = req.params.userId;
+  if (!userID) {
+    return res.status(404).json({ message: "User not found" });
+  }
+   try {
+    const newOrder = new Order({
+      userId: userID,
+      products: req.body.products,
+      amount: req.body.amount,
+      address: req.body.address,
+      status: req.body.status || "Pending",
+    });
 
-  try {
     const savedOrder = await newOrder.save();
     res.status(200).json(savedOrder);
   } catch (error) {
     res.status(500).json(error);
   }
 };
+// get user's order
+exports.getUserOrders = async (req, res) => {
+  const userID = req.params.userId;
+  const orderId = req.params.id;
 
-// UPDATE
-exports.updateOrder = async (req, res) => {
+  if (!userID) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
+    const order = await Order.findOne({ _id: orderId, userId: userID });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found for this user" });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+// update order
+exports.updateOrder = async (req, res) => {
+  const userId = req.params.userId;
+  if (!userId) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  try {
+    const order = await Order.findOneAndUpdate(
+      { _id: req.params.id, userId: userId },
+      { $set: { address: req.body.address, status: req.body.status } },
       { new: true }
     );
-    res.status(200).json(updatedOrder);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found for this user" });
+    }
+
+    res.status(200).json(order);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -28,19 +69,15 @@ exports.updateOrder = async (req, res) => {
 
 // DELETE
 exports.deleteOrder = async (req, res) => {
+  const userID = req.params.userId;
+  
+  if (!userID) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
   try {
     await Order.findByIdAndDelete(req.params.id);
     res.status(200).json("Order has been deleted.");
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-// GET USER'S ORDERS
-exports.findUserOrders = async (req, res) => {
-  try {
-    const orders = await Order.find({ userId: req.params.id });
-    res.status(200).json(orders);
   } catch (error) {
     res.status(500).json(error);
   }

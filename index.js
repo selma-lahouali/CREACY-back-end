@@ -5,6 +5,8 @@ const AuthRoutes = require("./routes/AuthRoutes");
 const ShopRoutes = require("./routes/ShopRoutes");
 const ProductsRoutes = require("./routes/ProductsRoutes");
 const CartRoutes = require("./routes/CartRoutes");
+const OrderRoutes = require("./routes/OrderRoutes");
+const StripeRoutes = require("./routes/StripeRoutes");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
@@ -14,6 +16,8 @@ app.use("/auth", AuthRoutes);
 app.use("/shop", ShopRoutes);
 app.use("/products", ProductsRoutes);
 app.use("/cart", CartRoutes);
+app.use("/order", OrderRoutes);
+app.use("/payment", StripeRoutes);
 
 // port
 app.listen(port || 3000, () => {

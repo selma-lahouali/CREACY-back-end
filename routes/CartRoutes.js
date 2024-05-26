@@ -9,11 +9,14 @@ router.put("/", verifyToken, CartControllers.addToCart);
 // UPDATE CART
 router.put("/:id", verifyToken, CartControllers.updateCart);
 
+// GET USER'S CART
+router.get("/:id", verifyToken, CartControllers.findUserCart);
+
 // DELETE FROM CART
 router.delete("/:id", verifyToken, CartControllers.deleteFromCart);
 
-// GET USER'S CART
-router.get("/:id", verifyToken, CartControllers.findUserCart);
+// delete USER'S CART
+router.delete("/:userId/:id", verifyToken, CartControllers.deleteUserCart);
 
 // GET CARTS OF ALL USERS (Restricted to admin only)
 router.get("/", verifyToken, adminCheck, CartControllers.getAllCarts);

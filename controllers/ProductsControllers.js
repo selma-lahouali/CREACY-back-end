@@ -29,10 +29,6 @@ exports.getAllProducts = async (req, res) => {
   try {
     const { categories, search } = req.query;
 
-    console.log("Page:", page);
-    console.log("Categories:", categories);
-    console.log("Search:", search);
-
     if (categories) {
       const categoryArray = categories.split(",");
       query.category = { $in: categoryArray };
@@ -106,7 +102,6 @@ exports.getProductById = async (req, res) => {
 exports.updateProductById = async (req, res) => {
   const { name, price, category, quantity, likes } = req.body;
   const image = req.image;
-
   try {
     const updatedProduct = await Products.findByIdAndUpdate(
       req.params.id,

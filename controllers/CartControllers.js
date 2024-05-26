@@ -27,7 +27,7 @@ exports.addToCart = async (req, res) => {
     }
 
     await cart.save();
-    res.status(200).send("Added to cart");
+    res.status(200).json({ message: "Added to cart", cartId: cart._id });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -92,5 +92,25 @@ exports.getAllCarts = async (req, res) => {
     res.status(200).json(carts);
   } catch (error) {
     res.status(500).json(error);
+  }
+};
+/// delete user's cart to do after checkout to clear the cart
+exports.deleteUserCart = async (req, res) => {
+  const userId = req.params.userId;
+  const cartId = req.params.id;
+  try {
+    const deletedCart = await Cart.findOneAndDelete({
+      user: userId,
+      _id: cartId,
+    });
+
+    if (!deletedCart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    res.status(200).json({ message: "Cart deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user's cart:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

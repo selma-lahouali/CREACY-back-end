@@ -1,24 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const OrderControllers = require("../controllers/OrderController");
+const OrderControllers = require("../controllers/OrderControllers");
 const { verifyToken, adminCheck } = require("../Middlewares/VerificationToken");
 
-// CREATE
-router.post("/", verifyToken, OrderControllers.createOrder);
+// CREATE order
+router.post("/:userId", verifyToken, OrderControllers.createOrder);
 
-// UPDATE
-router.put("/:id", verifyToken, adminCheck, OrderControllers.updateOrder);
-
-// DELETE
-router.delete("/:id", verifyToken, adminCheck, OrderControllers.deleteOrder);
+// UPDATE order
+router.put("/:userId/:id", verifyToken, OrderControllers.updateOrder);
 
 // GET USER'S ORDERS
-router.get("/userOrder/:id", verifyToken, adminCheck, OrderControllers.findUserOrders);
+router.get("/:userId/:id", verifyToken, OrderControllers.getUserOrders);
+
+// DELETE order
+router.delete("/:userId/:id", verifyToken, OrderControllers.deleteOrder);
 
 // GET ALL ORDERS
 router.get("/", verifyToken, adminCheck, OrderControllers.getAllOrders);
 
 // GET MONTHLY INCOME
-router.get("/income", verifyToken, adminCheck, OrderControllers.getMonthlyIncome);
+router.get(
+  "/income",
+  verifyToken,
+  adminCheck,
+  OrderControllers.getMonthlyIncome
+);
 
 module.exports = router;
