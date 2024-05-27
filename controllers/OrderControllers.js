@@ -21,8 +21,8 @@ exports.createOrder = async (req, res) => {
     res.status(500).json(error);
   }
 };
-// get user's order
-exports.getUserOrders = async (req, res) => {
+// get user's order by order id
+exports.getUserOrder = async (req, res) => {
   const userID = req.params.userId;
   const orderId = req.params.id;
 
@@ -35,6 +35,26 @@ exports.getUserOrders = async (req, res) => {
 
     if (!order) {
       return res.status(404).json({ message: "Order not found for this user" });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+// get all the orders of a user
+exports.getAllUserOrders = async (req, res) => {
+  const userID = req.params.userId;
+
+  if (!userID) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  try {
+    const order = await Order.find({ userId: userID });
+
+    if (!order) {
+      return res.status(404).json({ message: "No Order found for this user" });
     }
 
     res.status(200).json(order);

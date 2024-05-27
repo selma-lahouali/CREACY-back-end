@@ -6,11 +6,14 @@ const { verifyToken, adminCheck } = require("../Middlewares/VerificationToken");
 // CREATE order
 router.post("/:userId", verifyToken, OrderControllers.createOrder);
 
+// GET USER'S ORDER by order id
+router.get("/:userId/:id", verifyToken, OrderControllers.getUserOrder);
+
+// GET all the orders for a  USER'
+router.get("/:userId", verifyToken, OrderControllers.getAllUserOrders);
+
 // UPDATE order
 router.put("/:userId/:id", verifyToken, OrderControllers.updateOrder);
-
-// GET USER'S ORDERS
-router.get("/:userId/:id", verifyToken, OrderControllers.getUserOrders);
 
 // DELETE order
 router.delete("/:userId/:id", verifyToken, OrderControllers.deleteOrder);
