@@ -43,6 +43,16 @@ router.put(
   ProductsControllers.updateProductDescription
 );
 // Like/Unlike a product
-router.put("/like/:userID/:id", verifyToken, ProductsControllers.toggleLikeProduct);
+router.put(
+  "/like/:userID/:id",
+  verifyToken,
+  ProductsControllers.toggleLikeProduct
+);
+// update Product Quantity after successful purchase
+router.put(
+  "/quantity/:userId/:id",
+  verifyToken,
+  ProductsControllers.updateProductQuantity
+);
 
 module.exports = router;

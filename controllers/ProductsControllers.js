@@ -218,3 +218,32 @@ exports.toggleLikeProduct = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// Update a product quantity after successful purchase
+exports.updateProductQuantity = async (req, res) => {
+  const { quantity } = req.body;
+  const userID = req.params.userId;
+  const productId = req.params.id;
+  if (!userID) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  if (quantity === undefined || typeof quantity !== "number" || quantity < 0) {
+    return res.status(400).json({ message: "Invalid quantity" });
+  }
+
+  try {
+    const updatedProduct = await Products.findByIdAndUpdate(
+      productId,
+      { $set: { quantity } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
