@@ -12,6 +12,8 @@ const MessagesRoutes = require("./routes/MessagesRoutes");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
+const frontEndPort = process.env.FRONT_PORT;
+const liveUrl = process.env.LIVE_URL;
 // middlewars
 app.use(cors());
 app.use(express.json());
@@ -39,7 +41,7 @@ mongoose
 // socket.io
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: [frontEndPort, liveUrl],
   },
 });
 
