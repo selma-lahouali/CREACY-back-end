@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express");0
 const router = express.Router();
 const ProductsControllers = require("../controllers/ProductsControllers");
 const { imageUpload } = require("../Middlewares/MiddleImgUpload");
@@ -14,13 +14,13 @@ router.post(
 
 // Get all products from all shops
 router.get("/", verifyToken, ProductsControllers.getAllProducts);
+
 // Get all products from a shop by owner id
 router.get(
   "/owner/:ownerId",
   verifyToken,
   ProductsControllers.getAllProductsByOwner
 );
-
 // Get a single product by ID
 router.get("/:id", verifyToken, ProductsControllers.getProductById);
 
