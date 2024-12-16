@@ -28,6 +28,11 @@ app.use("/payment", StripeRoutes);
 app.use("/chat", ChatRoutes);
 app.use("/message", MessagesRoutes);
 
+// Health check route
+app.get("/status", (req, res) => {
+  res.status(200).send("OK"); // Simple response for monitoring
+});
+
 // port
 const server = app.listen(port || 3000, () => {
   console.log("server is runnig", port);
